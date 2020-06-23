@@ -1,0 +1,137 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    background: #3B404C;
+
+}
+
+#calculator {
+    width: 400px;
+    min-height: 600px;
+    height:100%;
+    /* height: 100%; */
+    margin: 10% auto;
+    background-color: #999999;
+    display: grid;
+    /* 4 columns taking up 1 part of the available space so 400/4 = 100px */
+    grid-template-columns: repeat(4, 1fr);
+    /* first row containing the display has max height of auto to fit content, cant use fr with min width, have to give px */
+    grid-template-rows: minmax(120px, auto) repeat(5, 1fr);
+    grid-row-gap: 2px;
+    grid-column-gap: 2px;
+    padding: 7px;
+    border: solid #323446 5px;
+    border-radius:10px;
+}
+
+#display {
+    grid-column: 1 / 5;
+    background-color: #F3F6F2;
+    margin-bottom: 1px;
+    color: #323446;
+    /* font-size: 4rem; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    padding: 5px;
+    border-radius: 5px;;
+}
+
+#input-display {
+    font-size: 4rem;
+}
+
+#output-display {
+    font-size: 2.5rem;
+    opacity: 0.6;
+}
+
+button {
+    background-color: #323446;
+    color: #F3F6F2;
+    cursor: pointer;
+    font-size: 2.2rem;
+    border: solid 2px #999999;
+    outline: none;
+}
+
+.operator {
+    font-size: 3rem;
+}
+
+#equals {
+    grid-row: 5 / 7;
+    grid-column: 4;
+    color: #4EBF8B;
+}
+
+#equals:hover {
+    border-color: #4EBF8B;
+}
+
+#zero {
+    grid-column: 1 / 3;
+}
+
+#clear {
+    color: #F14B4C;
+}
+
+#clear:hover{
+    border-color: #F14B4C;
+}
+
+#delete {
+    color: #8089A4;
+}
+
+#delete:hover {
+    border-color: #8089A4;
+}
+
+#add {
+    color: #F6C745;
+}
+
+#add:hover {
+    border-color: #F6C745;
+}
+
+#subtract {
+    color: #FA8D47;
+}
+
+#subtract:hover {
+    border-color: #FA8D47;
+}
+
+#multiply {
+    color: #3EA1D6;
+}
+
+#multiply:hover {
+    border-color: #3EA1D6;
+}
+
+#divide {
+    color: #7E53E1;
+}
+
+#divide:hover {
+    border-color: #7E53E1;
+}
+
+button:hover {
+    background-color: #F3F6F2;
+    color: #323446;
+    border-radius: 5px;
+    border-color:#323446;
+    transition: 0.2s;
+    opacity: 0.9;
+}
