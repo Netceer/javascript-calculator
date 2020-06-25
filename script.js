@@ -35,7 +35,7 @@ function addButtonToInputDisplay(button) {
     if(inputDisplay.innerText == "0" && button.innerText !== ".") inputDisplay.innerText = "";
     if(button.innerText === "." && inputDisplay.innerText.includes(".")) return;
     if(/[+÷×−=]/g.test(button.innerText)) return;
-    if(/[+÷×−=]/g.test(inputDisplay.innerText.slice(0,1))) inputDisplay.innerText = "";
+    if(/[+÷×=]/g.test(inputDisplay.innerText.slice(0,1))) inputDisplay.innerText = "";
 
     inputDisplay.innerText += button.innerText;
     outputDisplay.style.visibility = "visible";
@@ -48,13 +48,41 @@ allButtons.map(button => {
 );
 
 function handleOperatorInput(operator) {
+
+    if(/[+÷×−]/g.test(inputDisplay.innerText.slice(-1)) && /[+÷×−]/g.test(inputDisplay.innerText.slice(-2,-1)) && /[+÷×−]/g.test(operator.innerText)) {
+
+        if(inputDisplay.innerText.slice(-1) === "−" && operator.innerText === "−") {
+            inputDisplay.innerText = inputDisplay.innerText.slice(0,-2) + "+";
+            outputDisplay.style.visibility = "visible";
+            outputDisplay.innerText = inputDisplay.innerText;
+            return;}
+
+       inputDisplay.innerText = inputDisplay.innerText.slice(0,-2) + operator.innerText;
+       outputDisplay.style.visibility = "visible";
+       outputDisplay.innerText = inputDisplay.innerText;
+       return;
+    }
+
     if(/[+÷×−]/g.test(inputDisplay.innerText.slice(-1))) {
 
         if(inputDisplay.innerText.slice(-1) === "−" && operator.innerText === "−") {
             inputDisplay.innerText = inputDisplay.innerText.slice(0,-1) + "+";
+            if(/[+÷×−]/g.test(inputDisplay.innerText.slice(-2,-1))) {
+                inputDisplay.innerText = inputDisplay.innerText.slice(0,-1);
+            }
             outputDisplay.style.visibility = "visible";
             outputDisplay.innerText = inputDisplay.innerText;
             return;}
+
+            if(inputDisplay.innerText.slice(-1) === "+" && operator.innerText === "−") {
+                inputDisplay.innerText = inputDisplay.innerText.slice(0,-1) + "−";
+                outputDisplay.style.visibility = "visible";
+                outputDisplay.innerText = inputDisplay.innerText;
+                return;}
+
+        if(operator.innerText === "−" && /[+÷×−]/g.test(inputDisplay.innerText.slice(-1))) { 
+            inputDisplay.innerText += operator.innerText
+        return;}
 
        inputDisplay.innerText = inputDisplay.innerText.slice(0,-1) + operator.innerText;
        outputDisplay.style.visibility = "visible";
