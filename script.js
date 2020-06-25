@@ -48,6 +48,13 @@ allButtons.map(button => {
 
 function handleOperatorInput(operator) {
     if(/[+÷×−]/g.test(inputDisplay.innerText.slice(-1))) {
+
+        if(inputDisplay.innerText.slice(-1) === "−" && operator.innerText === "−") {
+            inputDisplay.innerText = inputDisplay.innerText.slice(0,-1) + "+";
+            outputDisplay.style.visibility = "visible";
+            outputDisplay.innerText = inputDisplay.innerText;
+            return;}
+
        inputDisplay.innerText = inputDisplay.innerText.slice(0,-1) + operator.innerText;
        outputDisplay.style.visibility = "visible";
        outputDisplay.innerText = inputDisplay.innerText;
