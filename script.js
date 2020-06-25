@@ -35,6 +35,7 @@ function addButtonToInputDisplay(button) {
     if(inputDisplay.innerText == "0" && button.innerText !== ".") inputDisplay.innerText = "";
     if(button.innerText === "." && inputDisplay.innerText.includes(".")) return;
     if(/[+÷×−=]/g.test(button.innerText)) return;
+    if(/[+÷×−=]/g.test(inputDisplay.innerText.slice(0,1))) inputDisplay.innerText = "";
 
     inputDisplay.innerText += button.innerText;
     outputDisplay.style.visibility = "visible";
@@ -76,7 +77,7 @@ function convertSymbols(inputString){
 }
 
 function calculate() {
-    let inputString = inputDisplay.innerText;
+    let inputString = inputDisplay.innerText;;
     let convertedString = convertSymbols(inputString);
     inputDisplay.innerText = eval(convertedString);
 
