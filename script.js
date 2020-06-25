@@ -77,11 +77,10 @@ function convertSymbols(inputString){
 }
 
 function calculate() {
-    let inputString = inputDisplay.innerText;;
+    let inputString = inputDisplay.innerText;
+    if(inputString === "") inputString = "0";
     let convertedString = convertSymbols(inputString);
     inputDisplay.innerText = eval(convertedString);
-
-    
 }
 
 equalsButton.addEventListener("click", () => calculate())
