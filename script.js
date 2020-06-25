@@ -32,7 +32,7 @@ deleteButton.addEventListener("click", deleteFunction);
 
 function addButtonToInputDisplay(button) {
     if(/AC|DEL/g.test(button.innerText)) return;
-    if(inputDisplay.innerText == "0") inputDisplay.innerText = "";
+    if(inputDisplay.innerText == "0" && button.innerText !== ".") inputDisplay.innerText = "";
     if(button.innerText === "." && inputDisplay.innerText.includes(".")) return;
     if(/[+÷×−=]/g.test(button.innerText)) return;
 
