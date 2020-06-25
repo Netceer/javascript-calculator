@@ -2,6 +2,8 @@
  const outputDisplay = document.querySelector("#output-display");
  const inputDisplay = document.querySelector("#input-display");
  const deleteButton = document.querySelector("#delete");
+ const equalsButton = document.querySelector("#equals");
+
 
  const numberButtons = [...document.querySelectorAll(".number-button")];
  const allButtons = [...document.querySelectorAll("button")];
@@ -59,3 +61,19 @@ function handleOperatorInput(operator) {
 operatorButtons.map(operator => {
     operator.addEventListener("click", () => handleOperatorInput(operator))
 });
+
+function convertSymbols(inputString){
+    return inputString.replace(/×/g, "*")
+                      .replace(/÷/g, "/")
+                      .replace(/−/g, "-");
+}
+
+function calculate() {
+    let inputString = inputDisplay.innerText;
+    let convertedString = convertSymbols(inputString);
+    inputDisplay.innerText = eval(convertedString);
+
+    
+}
+
+equalsButton.addEventListener("click", () => calculate())
