@@ -31,26 +31,32 @@ body {
 #display {
     grid-column: 1 / 5;
     background-color: #F3F6F2;
-    margin-bottom: 1px;
     color: #323446;
-    /* font-size: 4rem; */
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    justify-content: flex-end;
     overflow-wrap: break-word;
     word-break: break-all;
     padding: 5px;
-    border-radius: 5px;;
+    border-radius: 5px;
+    height: 100%;
+   
 }
 
-#input-display {
+.input-display-css {
     font-size: 3.5rem;
 }
 
-#output-display {
+.output-display-css {
     font-size: 2.5rem;
     opacity: 0.6;
     visibility: hidden;
+}
+
+.fade-out {
+    transition: 0.4s linear;
+    opacity: 0;
 }
 
 button {

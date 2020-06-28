@@ -39,7 +39,9 @@ function addButtonToInputDisplay(button) {
     if (button.innerText === "." && inputDisplay.innerText.includes(".")) return;
     if (/[+÷×−=]/g.test(button.innerText)) return;
     if (/[+÷×=]/g.test(inputDisplay.innerText.slice(0, 1))) inputDisplay.innerText = "";
+    if (button.innerText === "=") return;
 
+    outputDisplay.classList.remove("fade-out");
     inputDisplay.innerText += button.innerText;
     outputDisplay.style.visibility = "visible";
     outputDisplay.innerText += button.innerText;
@@ -52,7 +54,7 @@ allButtons.map(button => {
 );
 
 function handleOperatorInput(operator) {
-
+    outputDisplay.classList.remove("fade-out");
     if (/[+÷×−]/g.test(inputDisplay.innerText.slice(-1)) && /[+÷×−]/g.test(inputDisplay.innerText.slice(-2, -1)) && /[+÷×−]/g.test(operator.innerText)) {
 
         if (inputDisplay.innerText.slice(-1) === "−" && operator.innerText === "−") {
@@ -116,4 +118,7 @@ function calculate() {
     return eval(convertedString);
 }
 
-equalsButton.addEventListener("click", () => inputDisplay.innerText = calculate())
+equalsButton.addEventListener("click", () => {
+    outputDisplay.classList.add("fade-out");
+    inputDisplay.innerText = calculate()
+})
