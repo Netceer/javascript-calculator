@@ -130,7 +130,9 @@ function calculate() {
     if (/[+÷×−]/g.test(inputDisplay.innerText.slice(-1))) return;
     if (inputString === "") inputString = "0";
     let convertedString = convertSymbols(inputString);
-    return eval(convertedString);
+    let result = eval(convertedString).toString();
+    if(result.split(".")[1] && result.split(".")[1].length > 5) return (+result).toFixed(4);
+    return result;
 }
 
 equalsButton.addEventListener("click", () => {
