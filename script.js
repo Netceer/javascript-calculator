@@ -30,7 +30,8 @@ function deleteFunction() {
     }
 
     outputDisplay.innerText = inputDisplay.innerText;
-    outputDisplay.innerText = calculate();
+    if (!/[+÷×−]/g.test(inputDisplay.innerText.slice(-1))) outputDisplay.innerText = calculate();
+
 }
 
 deleteButton.addEventListener("click", deleteFunction);
@@ -39,11 +40,14 @@ deleteButton.addEventListener("click", deleteFunction);
 function addButtonToInputDisplay(button) {
     if (/AC|DEL/g.test(button.innerText)) return;
     if (inputDisplay.innerText == "0" && button.innerText !== ".") inputDisplay.innerText = "";
-    if (outputDisplay.innerText == "0" && button.innerText !== ".") outputDisplay.innerText = "";
+    if (outputDisplay.textContent == "0" && button.innerText !== ".") outputDisplay.innerText = "";
     if (button.innerText === "." && hasDecimal) return;
     if (button.innerText === ".") hasDecimal = true;
     if (/[+÷×−=]/g.test(button.innerText)) return;
-    if (/[+÷×=]/g.test(inputDisplay.innerText.slice(0, 1))) inputDisplay.innerText = "";
+    if (/[+÷×=]/g.test(inputDisplay.innerText.slice(0, 1))) {
+        inputDisplay.innerText = "";
+        outputDisplay.innerText = "";
+    }
     if (button.innerText === "=") return;
     if (endOfCalculation) {
         inputDisplay.innerText = ""
@@ -123,12 +127,14 @@ function convertSymbols(inputString) {
 
 function calculate() {
     let inputString = inputDisplay.innerText;
+    if (/[+÷×−]/g.test(inputDisplay.innerText.slice(-1))) return;
     if (inputString === "") inputString = "0";
     let convertedString = convertSymbols(inputString);
     return eval(convertedString);
 }
 
 equalsButton.addEventListener("click", () => {
+    if (calculate() === undefined) return;
     outputDisplay.classList.add("fade-out");
     inputDisplay.innerText = calculate()
     endOfCalculation = true;
