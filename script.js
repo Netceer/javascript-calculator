@@ -12,9 +12,11 @@ function clearFunction() {
     outputDisplay.style.visibility = "hidden";
     outputDisplay.innerText = "0";
     inputDisplay.innerText = "0";
+    hasDecimal = false;
 };
 
 let endOfCalculation = false;
+let hasDecimal = false;
 
 clearButton.addEventListener("click", clearFunction);
 
@@ -38,20 +40,20 @@ function addButtonToInputDisplay(button) {
     if (/AC|DEL/g.test(button.innerText)) return;
     if (inputDisplay.innerText == "0" && button.innerText !== ".") inputDisplay.innerText = "";
     if (outputDisplay.innerText == "0" && button.innerText !== ".") outputDisplay.innerText = "";
-    if (button.innerText === "." && inputDisplay.innerText.includes(".")) return;
+    if (button.innerText === "." && hasDecimal) return;
+    if (button.innerText === ".") hasDecimal = true;
     if (/[+÷×−=]/g.test(button.innerText)) return;
     if (/[+÷×=]/g.test(inputDisplay.innerText.slice(0, 1))) inputDisplay.innerText = "";
     if (button.innerText === "=") return;
     if (endOfCalculation) {
         inputDisplay.innerText = ""
-        endOfCalculation = false;
-        console.log(endOfCalculation);
+        endOfCalculation = false;;
     }
     outputDisplay.classList.remove("fade-out");
     inputDisplay.innerText += button.innerText;
     outputDisplay.style.visibility = "visible";
     outputDisplay.innerText += button.innerText;
-    outputDisplay.innerText = calculate();
+    if (button.innerText != ".") outputDisplay.innerText = calculate();
 };
 
 allButtons.map(button => {
@@ -61,6 +63,7 @@ allButtons.map(button => {
 
 function handleOperatorInput(operator) {
     endOfCalculation = false;
+    hasDecimal = false;
     outputDisplay.classList.remove("fade-out");
     if (/[+÷×−]/g.test(inputDisplay.innerText.slice(-1)) && /[+÷×−]/g.test(inputDisplay.innerText.slice(-2, -1)) && /[+÷×−]/g.test(operator.innerText)) {
 
@@ -129,5 +132,4 @@ equalsButton.addEventListener("click", () => {
     outputDisplay.classList.add("fade-out");
     inputDisplay.innerText = calculate()
     endOfCalculation = true;
-    console.log(endOfCalculation);
 })
