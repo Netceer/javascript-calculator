@@ -14,6 +14,8 @@ function clearFunction() {
     inputDisplay.innerText = "0";
 };
 
+let endOfCalculation = false;
+
 clearButton.addEventListener("click", clearFunction);
 
 function deleteFunction() {
@@ -40,7 +42,11 @@ function addButtonToInputDisplay(button) {
     if (/[+÷×−=]/g.test(button.innerText)) return;
     if (/[+÷×=]/g.test(inputDisplay.innerText.slice(0, 1))) inputDisplay.innerText = "";
     if (button.innerText === "=") return;
-
+    if (endOfCalculation) {
+        inputDisplay.innerText = ""
+        endOfCalculation = false;
+        console.log(endOfCalculation);
+    }
     outputDisplay.classList.remove("fade-out");
     inputDisplay.innerText += button.innerText;
     outputDisplay.style.visibility = "visible";
@@ -54,6 +60,7 @@ allButtons.map(button => {
 );
 
 function handleOperatorInput(operator) {
+    endOfCalculation = false;
     outputDisplay.classList.remove("fade-out");
     if (/[+÷×−]/g.test(inputDisplay.innerText.slice(-1)) && /[+÷×−]/g.test(inputDisplay.innerText.slice(-2, -1)) && /[+÷×−]/g.test(operator.innerText)) {
 
@@ -121,4 +128,6 @@ function calculate() {
 equalsButton.addEventListener("click", () => {
     outputDisplay.classList.add("fade-out");
     inputDisplay.innerText = calculate()
+    endOfCalculation = true;
+    console.log(endOfCalculation);
 })
