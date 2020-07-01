@@ -58,7 +58,8 @@ function addButtonToInputDisplay(button) {
   inputDisplay.innerText += button.innerText;
   outputDisplay.style.visibility = "visible";
   outputDisplay.innerText += button.innerText;
-  // if (button.innerText != ".") outputDisplay.innerText = calculate();
+  
+  if (button.innerText != ".") outputDisplay.innerText = calculate();
 }
 
 allButtons.map((button) => {
@@ -153,27 +154,21 @@ function calculate() {
   if (inputString === "") inputString = "0";
 
   let convertedString = convertSymbols(inputString);
-//   console.log(convertedString);
- let postFixQueue = convertInfixToPostfix(convertedString);
- console.log(postFixQueue);
-
-  // let result = eval(convertedString).toString();
-  // if(result.split(".")[1] && result.split(".")[1].length > 5) return (+result).toFixed(4);
-  // return result;
+  let postFixQueue = convertInfixToPostfix(convertedString);
+  let result = postFixEvaluator(postFixQueue).toString();
+  if (result.split(".")[1] && result.split(".")[1].length > 5)
+    return (+result).toFixed(4);
+  return result;
 }
 
 function convertInfixToPostfix(stringToConvert) {
+
   // applying shunting-yard algorithm
   let operatorStack = [];
   let postFixQueue = [];
-//   const inputString = inputDisplay.innerText;
-//   const convertedString = convertSymbols(inputString);
-  // console.log(convertedString);
 
   const splitString = stringToConvert.split(/([+/*-])/);
-//   console.log(splitString);
 
-  // object holding operator priorities
   const operatorPrecedence = {
     "+": 1,
     "-": 1,
@@ -182,21 +177,12 @@ function convertInfixToPostfix(stringToConvert) {
   };
 
   splitString.map((token) => {
-    // console.group("each token");
-    // console.log(`opStack = ${operatorStack}`);
-    // console.log(`numStack = ${postFixQueue}`);
-    // console.groupEnd();
-
     let tokenPrecedence = operatorPrecedence[token];
     let topOfStackPrecedence = 0;
     if (operatorStack.length > 0) {
       topOfStackPrecedence =
         operatorPrecedence[operatorStack[operatorStack.length - 1]];
     }
-
-    // console.log(token);
-    // console.log(tokenPrecedence);
-    // console.log(topOfStackPrecedence);
 
     // if token is a number
     if (!/[+/*-]/.test(token)) {
@@ -230,19 +216,45 @@ function convertInfixToPostfix(stringToConvert) {
     postFixQueue.push(operatorStack.pop());
   }
 
-//   console.group("final stacks");
-//   console.log(`opStack = ${operatorStack}`);
-//   console.log(`numStack = ${postFixQueue}`);
-//   console.groupEnd();
-
   return postFixQueue;
+}
 
+function postFixEvaluator(postFixQueue) {
+  let resultStack = [];
+
+  postFixQueue.map((token) => {
+    if (!/[+/*-]/.test(token)) {
+      // convert numbers with Neg to real negative numbers
+      //   then push token converted to a number
+      resultStack.push(+token.replace(/(.+)Neg/, "-$1"));
+    } else {
+      //   if operator then we pop off numbers in resultStack and operate on them
+      const RHS = resultStack.pop();
+      const LHS = resultStack.pop();
+
+      switch (token) {
+        case "*":
+          resultStack.push(LHS * RHS);
+          break;
+        case "/":
+          resultStack.push(LHS / RHS);
+          break;
+        case "+":
+          resultStack.push(LHS + RHS);
+          break;
+        case "-":
+          resultStack.push(LHS - RHS);
+          break;
+      }
+    }
+  });
+
+  return resultStack.pop();
 }
 
 equalsButton.addEventListener("click", () => {
-  // if (calculate() === undefined) return;
+  if (calculate() === undefined) return;
   outputDisplay.classList.add("fade-out");
-  inputDisplay.innerText = calculate()
-//   inputDisplay.innerText = convertInfixToPostfix();
+  inputDisplay.innerText = calculate();
   endOfCalculation = true;
 });
