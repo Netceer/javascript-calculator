@@ -21,8 +21,10 @@ let hasDecimal = false;
 clearButton.addEventListener("click", clearFunction);
 
 function deleteFunction() {
+  if (inputDisplay.innerText.slice(-1) === ".") hasDecimal = false;
+  
   inputDisplay.innerText = inputDisplay.innerText.slice(0, -1);
-
+  
   if (inputDisplay.innerText.length === 0) {
     inputDisplay.innerText = "0";
     outputDisplay.innerText = "";
@@ -256,5 +258,6 @@ equalsButton.addEventListener("click", () => {
   if (calculate() === undefined) return;
   outputDisplay.classList.add("fade-out");
   inputDisplay.innerText = calculate();
+  if (!inputDisplay.innerText.includes(".")) hasDecimal = false;
   endOfCalculation = true;
 });
