@@ -20,8 +20,7 @@ let hasDecimal = false;
 clearButton.addEventListener("click", clearFunction);
 
 function deleteFunction() {
-  if (inputDisplay.innerText.slice(-1) === ".") hasDecimal = false;
-  
+  hasDecimal = inputDisplay.innerText.slice(-1) !== ".";
   inputDisplay.innerText = inputDisplay.innerText.slice(0, -1);
   
   if (inputDisplay.innerText.length === 0) {
@@ -43,7 +42,7 @@ function addButtonToInputDisplay(button) {
     inputDisplay.innerText = "";
   if (outputDisplay.textContent == "0" && button.innerText !== ".")
     outputDisplay.innerText = "";
-  if (button.innerText === "." && hasDecimal) return;
+    if (button.innerText === "." && hasDecimal) return;
   if (button.innerText === ".") hasDecimal = true;
   if (/[+÷×−=]/g.test(button.innerText)) return;
   if (/[+÷×=]/g.test(inputDisplay.innerText.slice(0, 1))) {
@@ -258,6 +257,6 @@ equalsButton.addEventListener("click", () => {
   if (calculate() === undefined) return;
   outputDisplay.classList.add("fade-out");
   inputDisplay.innerText = calculate();
-  if (!inputDisplay.innerText.includes(".")) hasDecimal = false;
+  hasDecimal = inputDisplay.innerText.includes(".")
   endOfCalculation = true;
 });
