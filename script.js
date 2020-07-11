@@ -4,9 +4,8 @@ const inputDisplay = document.querySelector("#input-display");
 const deleteButton = document.querySelector("#delete");
 const equalsButton = document.querySelector("#equals");
 
-const numberButtons = [...document.querySelectorAll(".number-button")];
-const allButtons = [...document.querySelectorAll("button")];
-const operatorButtons = [...document.querySelectorAll(".operator-button")];
+const allButtons = document.querySelectorAll("button");
+const operatorButtons = document.querySelectorAll(".operator-button");
 
 function clearFunction() {
   outputDisplay.style.visibility = "hidden";
@@ -64,9 +63,10 @@ function addButtonToInputDisplay(button) {
   if (button.innerText != ".") outputDisplay.innerText = calculate();
 }
 
-allButtons.map((button) => {
-  button.addEventListener("click", () => addButtonToInputDisplay(button));
+allButtons.forEach((button) => {
+  button.addEventListener("click", () => addButtonToInputDisplay(button))
 });
+
 
 function handleOperatorInput(operator) {
   endOfCalculation = false;
@@ -136,7 +136,7 @@ function handleOperatorInput(operator) {
   outputDisplay.innerText += operator.innerText;
 }
 
-operatorButtons.map((operator) => {
+operatorButtons.forEach((operator) => {
   operator.addEventListener("click", () => handleOperatorInput(operator));
 });
 
