@@ -7,6 +7,14 @@ const equalsButton = document.querySelector("#equals");
 const allButtons = document.querySelectorAll("button");
 const operatorButtons = document.querySelectorAll(".operator-button");
 
+function checkForOperator(input) {
+  return /[+÷×−]/g.test(input);
+}
+
+function checkForOperatorSymbol(input) {
+return /[+/*-]/.test(input);
+}
+
 function clearFunction() {
   outputDisplay.style.visibility = "hidden";
   outputDisplay.innerText = "0";
@@ -30,7 +38,7 @@ function deleteFunction() {
   }
 
   outputDisplay.innerText = inputDisplay.innerText;
-  if (!/[+÷×−]/g.test(inputDisplay.innerText.slice(-1)))
+  if (!checkForOperator(inputDisplay.innerText.slice(-1)))
     outputDisplay.innerText = calculate();
 }
 
@@ -72,9 +80,9 @@ function handleOperatorInput(operator) {
   hasDecimal = false;
   outputDisplay.classList.remove("fade-out");
   if (
-    /[+÷×−]/g.test(inputDisplay.innerText.slice(-1)) &&
-    /[+÷×−]/g.test(inputDisplay.innerText.slice(-2, -1)) &&
-    /[+÷×−]/g.test(operator.innerText)
+    checkForOperator(inputDisplay.innerText.slice(-1)) &&
+    checkForOperator(inputDisplay.innerText.slice(-2, -1)) &&
+    checkForOperator(operator.innerText)
   ) {
     if (
       inputDisplay.innerText.slice(-1) === "−" &&
@@ -92,14 +100,14 @@ function handleOperatorInput(operator) {
     return;
   }
 
-  if (/[+÷×−]/g.test(inputDisplay.innerText.slice(-1))) {
+  if (checkForOperator(inputDisplay.innerText.slice(-1))) {
     if (
       inputDisplay.innerText.slice(-1) === "−" &&
       operator.innerText === "−"
     ) {
       inputDisplay.innerText = inputDisplay.innerText.slice(0, -1) + "+";
       outputDisplay.innerText = outputDisplay.innerText.slice(0, -1) + "+";
-      if (/[+÷×−]/g.test(inputDisplay.innerText.slice(-2, -1))) {
+      if (checkForOperator(inputDisplay.innerText.slice(-2, -1))) {
         inputDisplay.innerText = inputDisplay.innerText.slice(0, -1);
         outputDisplay.innerText = outputDisplay.innerText.slice(0, -1);
       }
@@ -117,7 +125,7 @@ function handleOperatorInput(operator) {
 
     if (
       operator.innerText === "−" &&
-      /[+÷×−]/g.test(inputDisplay.innerText.slice(-1))
+      checkForOperator(inputDisplay.innerText.slice(-1))
     ) {
       inputDisplay.innerText += operator.innerText;
       outputDisplay.innerText += operator.innerText;
@@ -151,7 +159,7 @@ function convertSymbols(inputString) {
 function calculate() {
   let inputString = inputDisplay.innerText;
 
-  if (/[+÷×−]/g.test(inputDisplay.innerText.slice(-1))) return;
+  if (checkForOperator(inputDisplay.innerText.slice(-1))) return;
   if (inputString === "") inputString = "0";
 
   let convertedString = convertSymbols(inputString);
@@ -186,13 +194,13 @@ function convertInfixToPostfix(stringToConvert) {
     }
 
     // if token is a number
-    if (!/[+/*-]/.test(token)) {
+    if (!checkForOperatorSymbol(token)) {
       postFixQueue.push(token);
     }
 
     // if token is an operator and operator stack is empty or token precedence > top of stack precedence
     else if (
-      /[+/*-]/.test(token) &&
+      checkForOperatorSymbol(token) &&
       (operatorStack.length === 0 || tokenPrecedence > topOfStackPrecedence)
     ) {
       operatorStack.push(token);
@@ -224,7 +232,7 @@ function postFixEvaluator(postFixQueue) {
   let resultStack = [];
 
   postFixQueue.map((token) => {
-    if (!/[+/*-]/.test(token)) {
+    if (!checkForOperatorSymbol(token)) {
       // convert numbers with Neg to real negative numbers
       //   then push token converted to a number
       resultStack.push(+token.replace(/(.+)Neg/, "-$1"));
