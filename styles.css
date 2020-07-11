@@ -68,6 +68,15 @@ button {
     outline: none;
 }
 
+button:hover {
+    background-color: #F3F6F2;
+    color: #323446;
+    border-radius: 5px;
+    border-color:#323446;
+    transition: 0.2s;
+    opacity: 0.9;
+}
+
 .operator {
     font-size: 3rem;
 }
@@ -134,11 +143,3 @@ button {
     border-color: #7E53E1;
 }
 
-button:hover {
-    background-color: #F3F6F2;
-    color: #323446;
-    border-radius: 5px;
-    border-color:#323446;
-    transition: 0.2s;
-    opacity: 0.9;
-}
